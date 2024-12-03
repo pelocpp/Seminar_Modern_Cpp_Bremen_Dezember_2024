@@ -1,0 +1,267 @@
+// ====================
+
+Modern C++
+
+Moin
+
+Peter Loos  // Du
+
+// ====================
+
+Mensa 
+
+Döner // Aldi // Bäcker
+
+Subway
+
+// ====================
+
+Algorithmen
+Gen. Lambda
+Init_List
+noexcept
+
+
+
+// ====================
+
+2 Tools:
+
+== Visual Studio
+== Github
+
+https://github.com/pelocpp
+
+https://github.com/pelocpp/cpp_modern
+
+-- Unterlagen
+-- Source Code
+
+Agenda
+
+Fragerunde:
+
+== Was sind meine Erwartungen an dieses Seminar?
+== Was bringe ich (andere Sprachen)
+== Was MUSS DRIN SEIN
+== (( Multithreading ))
+
+ToDo-Liste:
+-----------
+
+-- Java, C#, Ada, (Android Java)
+-- Lambda
+-- Design Pattern (Visitor)
+-- Metaprogramming (CRTP, TypeErasure) // constexpr
+-- Smart Pointer
+-- Multithreading 
+-- Best Practices !!!  Go-for-"XXX"
+-- Why ???????????????????
+
+====================================
+
+Fragen
+
+"Roten Faden"  // Agenda // 
+
+== Move-Semantik
+
+   -- RValue // LValue
+   -- Move-Semantik
+
+==================================
+
+C++:   Performanz !!!!!!!!!!!!!
+
+==================================
+
+Java, C#
+
+VORSICHT: !!!!!!!!!!!!!
+
+void test01()
+{
+    string s;    // Beispiel: WO LIEGT s ????
+}
+
+Java, C#:
+
+    string s = new string("asdasd"); // HEAP
+    a.clone();
+
+C++:
+
+    std::string s;    // STACK
+    std::string* sp = new std::string("");    // HEAP
+
+Java, C#:
+
+    // Daten: Referenz-Semantik
+
+C++:
+    // Daten: Referenz-Semantik // new // Heap
+    // Daten: Wert-Semantik     // Stack
+
+Was ist in C++ das Problem mit der Wert-Semantik ???
+    Es kommt immer wieder zu "überflüssigen" Kopien.
+
+Wie ist in C++ eine Referenz definiert:
+
+int n;
+
+int& ri = n;   // Alias
+              // Objekt MIT NAME
+
+// ==================================================
+
+RValue: Why ???
+
+...: ... A0    // temp. Objekt am Stack // Wird freigegeben
+...: ... 60    // im Vektor
+
+...: ... 40    // temp. Objekt am Stack 
+
+
+Rule-of-Three 
+
+// ==============================================
+
+class MyClass
+{
+    std::string m_s;
+    std::unique_ptr<int> m_data;
+
+    MyClass (int n) ; 
+
+    MyClass (const MyClass&) { ... } 
+    ~MyClass() {}   // NEIN, wenn Rule-of-Five automatisch erzeugt werden soll
+
+};
+
+// ==============================================
+
+C++:
+
+==> Objektorientierte Progr.Sprache
+==> Generische Programmierung // Templates (auch: auto)
+
+Bjarne Stroustrup:  C with Classes
+Alexander Stepanow: Generische Programmierung
+
+Stroustrup:  ==> Bibliothek: STL
+
+C++ V 1.2:   Templates
+
+=====================================
+
+C++
+
+Eingebautes Regelwerk für Typkonvertierungen
+
+int + short => int
+
+float + double => double
+
+short + unsigned long => 
+
+=====================================
+
+Initialisierung
+
+{  }   ==> Brace Initialization
+
+C++ und Initialisierung: Redesign:
+
+Konstruktor:  std::string s ();
+
+Syntax:  { }
+
+// Was ist s in C++ ???
+string s ();
+
+string s;
+
+int n;
+
+// ===================================================
+
+Lambdas: Blick hinter die Kulissen.
+
+Strategie: C++ "viel Neues" ==> wird auf Vorhandenes abgebildet.
+
+Aufrufbare Objekt
+
+Callable Object
+
+C++ : Vermeiden, Namen festzulegen  ==> operator 
+
+Man nehme Operatoren statt Methoden
+
+Iterator:
+
+C++           C#
+operator++    next
+operator*     Current
+operator==    equals
+
+"Lambda-Funktion"
+
+Präzise: Lambda-Objekte
+
+
+
+Cpp Insights
+
+// ===========================================
+
+Algorithmen
+
+fill, copy, ...
+
+memset, memcpy, memcmp, ... 
+
+// =======================
+
+Frage:
+
+type elem
+
+const, &:  Qualifizierer
+
+// ===============================
+
+Konzeptionelle Grundlage:
+-------------------------
+
+        std::for_each(
+            values.cbegin(),  // vector, list, map, ...
+            values.cend(),
+            [&sum] (const auto& value) { sum += value; }
+        );
+
+std::container
+std::algorithmen
+std::iteratoren
+
+std::container <==>  std::iteratoren <==> std::algorithmen
+
+// ====================================
+
+Templates:
+
+Typ "T"
+
+Was kann man für T verwenden:
+
+"Alles"
+
+"Alles, solange es sich übersetzen lässt."
+
+===>  Reagierende Verhalten.
+
+Gewünscht: Proaktives Verhalten.
+
+Der Anwender legt fest, was "T" sein darf.
+
+C++ 20
+
