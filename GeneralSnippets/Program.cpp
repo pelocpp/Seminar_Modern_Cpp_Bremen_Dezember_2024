@@ -36,8 +36,8 @@ int main()
         //main_concepts_requires_classes();
         //main_concepts_requires_functions();
         //main_constructor_invocations();
-        main_constexpr();
-        //main_constexpr_crc();
+        //main_constexpr();
+       // main_constexpr_crc();
         //main_const_variants();
         //main_copy_move_elision();
         //main_copy_swap_idiom();
@@ -60,7 +60,7 @@ int main()
        // main_lambdas();
         //main_lambda_and_closure();
         //main_lambdas_this_closure();
-        //main_literals();
+       // main_literals();
         //main_memory_leaks_detection();
         //main_metaprogramming_01();
         //main_metaprogramming_02(); 
@@ -102,7 +102,7 @@ int main()
         //main_variadic_templates_working_on_every_argument();
         //main_variadic_templates_sum_of_sums();
         //main_variadic_templates_mixins();
-        //main_variant();
+        main_variant();
         //main_virtual_base_class_destructor();
         //main_virtual_override_final();
         //main_weak_pointer();

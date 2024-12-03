@@ -2,13 +2,18 @@
 // Variant.cpp // std::variant
 // =====================================================================================
 
+module;
+
+#include <variant>
+#include <print>
+
 module modern_cpp:variant;
 
 namespace VariantDemo {
 
     static void test_01() {
 
-        std::variant<int, double, std::string> var{ 123 };
+        std::variant < int, double, std::string > var{ 123 };
 
         // -------------------------------------------------
 
@@ -21,7 +26,7 @@ namespace VariantDemo {
         // -------------------------------------------------
 
         {
-            size_t index{ var.index() };
+            /*constexpr*/ size_t index{ var.index() };
             int n{ std::get<0>(var) };    // std::get using index
             std::println("{} - Value: {}", index, n);
         }
@@ -87,13 +92,67 @@ namespace VariantDemo {
 
     // -------------------------------------------------------------------
 
+    // Einen Variant besuchen // C++ 17 std::visit
+
+    // primary template
+    template <class T>
+    struct my_remove_reference {
+        using type = T;
+    };
+
+    // template specialization - for T = long
+    template <>
+    struct my_remove_reference<long> {
+        using type = long;
+    };
+
+    template <class T>
+    struct my_remove_reference<T&> {
+        using type = T;
+    };
+
+
     static void test_03() {
+
+        std::vector<int> numbers;
+
+        std::vector<int>::value_type value{ 123 };
+        numbers.push_back(value);
+
+        std::set<int> anotherNumbers;
+
+        std::vector<int>::iterator iterator ;
+        std::set<int>::iterator iterator2;
 
         std::variant<int, double, std::string> var{ 123 };
 
         // using a generic visitor (matching all types in the variant)
-        auto visitor = [](const auto& elem) {
-            std::println("{}", elem);
+        auto visitor = [] (const auto& elem) {
+
+            using ElemType = decltype (elem);
+
+            using ElemTypeWithoutRef = my_remove_reference<ElemType>::type;
+
+            using ElemTypeWithoutRefAndConst = std::remove_const<ElemTypeWithoutRef>::type;
+
+            // if zur ÜBERSETZUNGSZEIT
+            if constexpr ( std::is_same< ElemTypeWithoutRefAndConst, int >::value )
+            {
+                std::println("int: {}", elem);
+            }
+            else if constexpr (std::is_same< ElemTypeWithoutRefAndConst, double >::value)
+            {
+                std::println("double: {}", elem);
+            }
+            else if constexpr (std::is_same< ElemTypeWithoutRefAndConst, std::string >::value)
+            {
+                std::println("std::string: {}", elem);
+                std::println("Length: {}", elem.size());
+            }
+            else
+            {
+                std::println("Unbekannt: {}", elem);
+            }
         };
 
         std::visit(visitor, var);
@@ -227,16 +286,16 @@ namespace VariantDemo {
     }
 }
 
-void main_variant()
+void main_variant() 
 {
     using namespace VariantDemo;
-    test_01();
-    test_02();
+    //test_01();
+    //test_02();
     test_03();
-    test_04();
-    test_05();
-    test_06();
-    test_07();
+    //test_04();
+    //test_05();
+    //test_06();
+    //test_07();
 }
 
 // =====================================================================================

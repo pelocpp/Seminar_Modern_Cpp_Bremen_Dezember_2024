@@ -213,3 +213,85 @@ Invalidate ==> Redraw
 
 bauteil.lock();
 if (nullptr)
+
+// =============================================
+
+std::vector <>         ===> Heap
+
+// =============================================
+
+Programmiersprache:
+
+Lexikon
+
+C++: Lexikon erweiterbar
+
+Literale:  UDL => user defined literal
+
+a) Operator Overloading:  operator ""
+
+b) operator ""  identifier  (params)
+
+identifier == suffix
+
+123ll
+
+123.54
+
+123.213f
+
+100_km
+
+100_kg    ==> int
+
+100_euro
+
+0xFF0000_farbe    ==> class Color
+
+0xFF0000_rgb    ==> class Color
+
+"14:10:30" ==> Time
+
+// Technologische Konstanten
+
+10_km + 5_m
+
+=============================================
+
+
+std::optional:
+
+int value;
+
+// ist in value ein gültiger Wert ...
+
+if (value != 0) ...
+
+if (value != -1) ...
+
+if (value != -2) ...
+
+if (value != - MaxInt) ...
+
+int  value;
+bool isValid;
+
+Zu einer Variablen zusammengefasst:
+
+std::optional<int> value;
+
+// ==================================================
+
+std::variant
+
+vs.
+
+std::any
+
+Excel // Sheets ===> Zellen // Cell
+
+Cell:   Zeichenketten, Zahlen, Uhrzeiten, Datum, Currency, ... (Alles)
+
+Cell ===> std::variant
+
+

@@ -58,7 +58,7 @@ namespace ConstExprDynamicData {
     static constexpr int naiveSum(unsigned int n)
     {
         auto ip = new int[n];
-        std::iota(ip, ip + n, 1);
+        std::iota(ip, ip + n, 1);  // 1,2, 3, 4, 5 
         auto tmp = std::accumulate(ip, ip + n, 0);
         delete[] ip;
         return tmp;
@@ -66,7 +66,7 @@ namespace ConstExprDynamicData {
 
     static void testDynamicData()
     {
-        constexpr int sum = naiveSum(10);
+        int sum = naiveSum(5);
         std::println("Sum from 1 up to 10: {}", sum);
     }
 }

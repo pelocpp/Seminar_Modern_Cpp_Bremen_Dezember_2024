@@ -22,9 +22,19 @@ module modern_cpp:const_expr;
 constexpr uint8_t MY_POLYNOM = 0x07;
 constexpr int TABLE_SIZE = 256;
 
+void test_lambda_advanced()
+{
+    []() {};
+    [] {};
+
+    []() {} ();
+
+    constexpr auto nothing = [] (int a, int b) { return a+b; } (10, 30); 
+}
+
 template<uint8_t POLYNOM>
-constexpr auto crcTable{
-    []() {
+constexpr auto crcTable {
+    [] () {
         std::array<uint8_t, TABLE_SIZE> A {};
         for (int i = 0; i < TABLE_SIZE; i++) {
             A[i] = i;
@@ -51,6 +61,8 @@ static constexpr auto calcCRC(uint8_t len, const uint8_t* data) {
 
 void main_constexpr_crc()
 {
+    test_lambda_advanced();
+
     constexpr uint8_t message[]{ "Hello World" };
     constexpr uint8_t checksum{ calcCRC(11, message) };
     std::cout << "Checksum is: " << std::hex << static_cast<int>(checksum) << std::endl;
