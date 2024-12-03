@@ -9,3 +9,207 @@ Peter Loos
 Dienstag
 
 // ====================
+
+Initializer Liste
+-----------------
+
+
+std::vector<int>             ==> Heap  new / delete
+
+std::initializer_list<int>   ==> Stack : Performanz
+
+
+std::initializer_list<int> kein STL Container
+
+Lightweight Container:
+
+begin()
+end()
+size()
+
+============================================
+
+        int m{ n };   // static void callMe(int n)
+
+00007FF7FB33DA4F  mov         eax,dword ptr [n]  
+00007FF7FB33DA55  mov         dword ptr [m],eax  
+
+        int m{ n };  // callMeToo(const int& n)
+
+00007FF7FB33DB60  mov         rax,qword ptr [n]  
+00007FF7FB33DB67  mov         eax,dword ptr [rax]  
+00007FF7FB33DB69  mov         dword ptr [m],eax  
+
+// ===========================================
+
+VORSICHT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+std::vector<int> vec { 10 };  // Size: 1 - Value: 10
+
+std::vector<int> vec ( 10 );  // Size: 10 - Values: 0
+
+std::vector<int> vec(20, 20);   // Size: 20 - Values: 20
+
+std::vector<int> vec{ 20, 20 }; // Size: 2 - Values: 20, 20
+
+========================================================
+
+Smart Pointer
+-------------
+
+Was ist das Problem mit new / delete ???
+
+Wer ruft wann delete auf ?????????
+
+Projektphase:   Death March
+
+Idee:  
+
+a) C++, Objekt-Orientierung
+
+b) Klassen / Objekte:
+
+   Konstruktoren
+   Destruktoren
+
+c) Wann werden Konstruktoren / Destruktoren aufgerufen:
+
+   == Objekterzeugung
+   == Objektzerstörung: AM ENDE DES SCOPES // Deterministisch 
+
+d) Idee:  new // Zeiger
+
+   Hüllenklasse // Hüllenobjekt
+
+   == Objekterzeugung: Konstruktor (Zeiger)
+   == Objektzerstörung: Destruktor (delete)
+
+e) auto_ptr: Deprecated
+
+f) std::shared_ptr
+   std::unique_ptr
+   std::weak_ptr
+
+g) Unterschiedliche Strategien:
+
+Ownership // Besitz:
+
+i) std::unique_ptr:
+
+Es gibt zu einem Zeitpunkt EINEN Besitzer !!!
+
+
+ii) std::shared_ptr:
+
+Es kann zu einem Zeitpunkt MEHRERE Besitzer geben !!!
+
+==> Referenzzählers
+
+iii) std::weak_ptr: Unterstützt den std::shared_ptr
+
+
+// ==============================
+
+Java / C# im Vergleich zu C++:
+
+Lebensdauer:
+
+== Globale Objekte (auf der obersten Ebene zu vereinbaren)
+
+== Lokale Objekte:
+
+   {
+       Window w;  // C++ Objekt
+
+       Window w = new Window (...);  // C#, Java
+   
+       // C++: Deterministischer Aufruf: Destruktors von w
+   }
+
+== Dynamische Objekte: new / delete
+
+// ==============================
+
+Umstieg // Smart Pointer:
+
+Go for std::shared_ptr  // mehrere Besitzer
+
+Thread-Sicher: Die Daten des std::shared_ptr // Control-Block
+
+               // Mutex
+
+oder
+
+Go for std::unique_ptr  // Wer ist der Besitzer
+
+int* ptr;  // weg ....
+
+ABER: Der std::shared_ptr funktioniert NICHT IMMER.
+
+Es gibt Situationen, wo es NIEMALS zu einem 'delete' kommt.
+
+std::shared_ptr MIT dem std::weak_ptr verwenden !!!!!!!!!!!!!!!!!!!
+
+i)  Grundsätzliche Technik
+
+ii) Why ??????????????
+
+// ===================================================
+
+Design Pattern:
+
+Observer Pattern
+
+== Quelle // Ziel: Möchte man beobachten
+                Hat Zustand, der sich ändert
+
+== Clients // Beobachter: Wollen die Quelle beobachten.
+
+
+== Um zu beobachten: Ein Client meldet sich an der Quelle an
+                     attach // register // += 
+
+    source.attach (client);
+
+== Eine Quelle kennt Beobachter (Details // Schnittstelle )
+
+== In der Quelle kommt es zu einer Zustandsänderung:
+
+   for (  auto client    :  clients)
+        client.update ();
+
+==>
+
+Quelle: std::shared_ptr  
+
+Clients: std::shared_ptr  
+
+Beobachtung: In der Quelle gibt es eine "Liste" aller Clients,
+             die zu benachrichtigen sind.
+
+             Verwaltet die Quelle in dieser Liste 
+             == shared-ptr
+             == weak_ptr    <============= !!!!
+
+             Frage: Eine Quelle nimmt für sich in Anspruch,
+                    zum Besitzer eines Clients zu werden ????
+
+   for (  auto client  :  clients) {
+   
+       sharedPtr sp = client.lock();
+       if (sp == nullptr) 
+         continue;
+       else 
+         client.update ();
+   }
+        
+Visualisierung:
+
+Bauteile
+
+Soll alle Bauteile grafisch darstellen.
+
+Invalidate ==> Redraw
+
+bauteil.lock();
+if (nullptr)

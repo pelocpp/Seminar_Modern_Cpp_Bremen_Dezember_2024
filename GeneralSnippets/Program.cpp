@@ -36,7 +36,7 @@ int main()
         //main_concepts_requires_classes();
         //main_concepts_requires_functions();
         //main_constructor_invocations();
-        //main_constexpr();
+        main_constexpr();
         //main_constexpr_crc();
         //main_const_variants();
         //main_copy_move_elision();
@@ -47,7 +47,7 @@ int main()
         //main_erase_remove_idiom();
         //main_expression_templates();
         //main_generate();
-        main_generic_functions();
+       // main_generic_functions();
         //main_exception_safety();
         //main_explicit_keyword();
         //main_folding();

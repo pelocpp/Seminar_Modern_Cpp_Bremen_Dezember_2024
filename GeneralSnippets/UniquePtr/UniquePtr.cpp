@@ -17,11 +17,32 @@ namespace UniquePointerGeneral {
         return ptr;
     }
 
-    static void storeUniquePointer(std::unique_ptr<int>& ptr)
+    static void storeUniquePointer( std::unique_ptr<int>& ptr)
     {
         std::println("*ptr:    {}", *ptr);
         (*ptr)++;
         std::println("*ptr:    {}", *ptr);
+
+        // take ownership right now:
+        std::unique_ptr<int> ptr2{ std::move(ptr) };
+    }
+
+    static void storeUniquePointerAlternate(std::unique_ptr<int>& ptr)
+    {
+    }
+
+    static void storeUniquePointerAlternate(std::unique_ptr<int>&& ptr)
+    {
+        // Wertzuweisung // Verschiebe-Konstruktion
+
+        std::unique_ptr<int> tmp{ std::move(ptr) };  // Hier wechselt der Besitz !!
+
+       // std::unique_ptr<int> tmp{ ptr };  // Kopier - Konstruktion
+
+
+        //std::println("*ptr:    {}", *ptr);
+        //(*ptr)++;
+        //std::println("*ptr:    {}", *ptr);
 
         // take ownership right now:
         // std::unique_ptr<int> ptr2{ std::move(ptr) };
@@ -50,6 +71,10 @@ namespace UniquePointerGeneral {
 
     static void test_01()
     {
+        //std::unique_ptr<int> ptrX;
+        //std::unique_ptr<int> ptrY;
+        //ptrX = ptrY;
+
         // create a unique_ptr to an int with value 123
         std::unique_ptr<int> ptr1{ new int{ 123 } };
         // or
@@ -79,11 +104,13 @@ namespace UniquePointerGeneral {
         m = *ptr2;
         std::println("*ptr2:   {}", m);
 
-        // move assignment
-        std::unique_ptr<int> ptr3{};
-        ptr3 = std::move(ptr2);
-        m = *ptr3;
-        std::println("*ptr3:   {}", m);
+        {
+            // move assignment
+            std::unique_ptr<int> ptr3 = std::move(ptr2);
+            m = *ptr3;
+            std::println("*ptr3:   {}", m);
+        }
+
     }
 
     static void test_02()
@@ -95,8 +122,10 @@ namespace UniquePointerGeneral {
         // provide a function with a unique pointer: who owns the pointer now?
         storeUniquePointer(ptr);
 
+     //   storeUniquePointerAlternate(std::move(ptr));
+
         // C++ Core Guidelines
-        storeUniquePointerAlternate(ptr.get());
+     //   storeUniquePointerAlternate(ptr.get());
 
         // does this work?
         std::println("*ptr:    {}", *ptr);

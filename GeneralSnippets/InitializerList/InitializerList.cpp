@@ -4,7 +4,27 @@
 
 module modern_cpp:initializer_list;
 
-namespace InitializerList {
+namespace InitializerList { 
+
+    static void callMe(int n)
+    {
+        int m{ n };
+    }
+
+    static void callMeToo(const int& n)
+    {
+        int m{ n };
+    }
+
+
+    void test_frage()
+    {
+        int x = 123;
+
+        callMe(x);
+
+        callMeToo(x);
+    }
 
     // function using std::initializer_list
     static int adder (std::initializer_list<int> list)
@@ -34,7 +54,9 @@ namespace InitializerList {
     static void test_01() {
 
         // testing functions expecting lists in function call
-        int sum = adder({ 1, 2, 3, 4, 5 });
+
+        int sum = adder( { 1, 2, 3, 4, 5 } );
+
         std::cout << sum << std::endl;
 
         print({ 1, 2, 3, 4, 5 });
@@ -66,7 +88,8 @@ namespace InitializerList {
     };
 
     // container-like classes
-    class Polygon {
+    class Polygon
+    {
     public:
         Polygon(std::initializer_list<Point> points)
             : m_points{ points }
@@ -174,6 +197,9 @@ namespace InitializerList {
 void main_initializer_list()
 {
     using namespace InitializerList;
+
+    test_frage();
+
     test_01(); 
     test_02();
     test_03();
