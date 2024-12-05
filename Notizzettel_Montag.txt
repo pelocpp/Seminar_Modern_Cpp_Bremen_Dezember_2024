@@ -4,7 +4,9 @@ Modern C++
 
 Moin
 
-Peter Loos  // Du
+Peter Loos
+
+peter.loos@gmx.de
 
 // ====================
 

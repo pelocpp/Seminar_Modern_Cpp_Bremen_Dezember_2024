@@ -1,0 +1,172 @@
+// ====================
+
+Modern C++
+
+Peter Loos
+
+peter.loos@gmx.de
+
+// ====================
+
+Donnerstag
+
+https://github.com/pelocpp/
+
+https://peterloos.de/
+
+https://adventofcode.com/
+
+// ====================
+
+Datentypen
+
+Generischen Programmierung
+
+decltype // using // Type Traits // std::is_same // std::reference_remove
+
+Grundlagen: Metaprogramming
+
+VERSTÄNDIS !!!!!!
+
+
+1>        C:\Peter_Loos\GeneralSnippets\MetaProgramming\MetaProgramming01.cpp(12,62):
+1>        Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "Metaprogramming::Factorial<-496>".
+1>        C:\Peter_Loos\GeneralSnippets\MetaProgramming\MetaProgramming01.cpp(12,62):
+1>        Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "Metaprogramming::Factorial<-497>".
+1>        C:\Peter_Loos\GeneralSnippets\MetaProgramming\MetaProgramming01.cpp(12,62):
+1>        Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "Metaprogramming::Factorial<-498>".
+1>        C:\Peter_Loos\GeneralSnippets\MetaProgramming\MetaProgramming01.cpp(12,62):
+1>        Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "Metaprogramming::Factorial<-499>".
+1>        C:\Peter_Loos\GeneralSnippets\MetaProgramming\MetaProgramming01.cpp(12,62):
+1>        Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "Metaprogramming::Factorial<-500>".
+1>Die Erstellung des Projekts "GeneralSnippets.vcxproj" ist abgeschlossen -- FEHLER.
+========== Build: 0 erfolgreich, 1 Fehler, 0 aktuell, 0 übersprungen ==========
+========== Erstellen abgeschlossen um 09:15 und dauerte 00,984 Sekunden ==========
+
+
+
+Was ist  std::vector <T> ==   Schablone
+
+void myProg()
+{
+    using MyContainer = std::vector<long>;
+    // typedef
+
+    MyContainer zahlen;
+    zahlen.push_back(123);
+}
+
+==================================================
+
+C++ 11:
+
+Variadische Templates
+
+a) Verstehen // Verständnis
+
+b) Einsetzen: gerne auch, muss nicht morgen sein.
+
+c) Why ????????????????????????????????
+
+   Transport von Daten !!!!
+
+
+    my_make_unique(TArgs ... args) {
+
+    std::unique_ptr<Unknown> up2 = my_make_unique<Unknown>(1, 2, 3);
+
+    == EINPACKEN:   1, 2, 3 => args    (Komma-getrennte Liste von Parametern)
+    == AUSPACKEN:   args => 1, 2, 3    (Komma-getrennte Liste erzeugen)
+
+
+
+To be Done:
+
+eine Funktion
+
+modern printer
+
+perfect forwarding
+
+emplace
+
+========================================
+
+Real Modern C++
+
+Noch eine Referenz:     Universal Referenz !!!!
+
+========================================
+
+
+    bool result = AND ( true, true, true, true, true, true, true    );
+    // false
+    // true
+
+
+        bool andAll(bool cond) {
+            return cond;
+        }
+
+        ===>
+
+        template <typename T>
+        bool andAll(T cond) {
+            return cond;
+        }
+
+        ===>
+
+        template <typename T>
+            requires CONCEPT<T>
+        bool andAll(T cond) {
+            return cond;
+        }
+
+==============================================
+
+std::tuple
+
+Ähnlichkeit zu
+
+struct
+
+Ein std::tuple ist ein struct für Schreibfaule :)
+
+std::tuple:  Helfer
+
+DTO  ==> Data Transfer Objects
+
+
+std::string_view  
+
+===================================================================
+
+Exception Safety:
+-----------------
+
+Vorstellung // Konzept
+
+Berührpunkte von "unserer" SW mit diesem Konzept.
+
+Exception Safety:  STL
+
+
+std::vector<Unknown> 
+
+"noexcept" ist performanter ==> Kein Stack Unwinding Code wird abgesetzt.
+
+Doch eine Exception: Absturz !!!
+
+=============================================
+
+Folding
+
+
+
+
+
+
+
+
+
