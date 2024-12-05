@@ -97,3 +97,109 @@ std::any
 CRTP
 
 ===================================================
+
+
+  API für Multithreading : Kleinste gemeinsame Nenner
+
+Logger::log
+
+Wie kann ein Thread Ergebnisse zurückliefern
+
+== Kann auf gemeinsame Variablen zugreifen // Problemen des konk. Zugriffs
+
+== Via return;
+
+std::async:
+
+
+KÖNNTE NOCH einen anderen Vorteil haben:  
+
+Thread Pools
+
+std::thread ==> CreateThread
+std::async ==> Thread Pool
+
+===============================================
+
+Mutex-Objekt
+
+Lösung für einen fehlenden .unlock Aufruf
+
+Idee von Smart Pointern:
+
+Hüllen-Objekt:
+
+  Konstruktoren  ===> lock
+  Destruktoren   ====> unlock
+
+RAII:   Ressource Acquisition is Initialization
+
+
+Schicht: 
+
+Mehreren Ebenen // mehreren Einsprungpunkten für den Client:
+
+mutex.lock();
+
+
+Threading:
+
+               Konkurrenz    // gegenseitigen Ausschluss  // mutual Exclusion   Mutex  // Zwangsserialisierung
+
+               Kooperation:         Thread 1:  wait ();    //      Thread 2:  notify 
+
+
+               std::condition_variable
+
+
+std::jthread   ===>  join     j:    Nicolia Josuttis
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
