@@ -10,6 +10,37 @@ module modern_cpp:folding;
 
 namespace Folding_Seminar {
 
+    class Complex
+    {
+    private:
+        float m_real;
+        float m_imag;
+
+    public:
+        // c'tors
+        constexpr Complex() : m_real{ }, m_imag{ } {}
+        constexpr Complex(float real, float imag) : m_real{ real }, m_imag{ imag } {}
+
+        // getter
+        constexpr float real() const { return m_real; }
+        constexpr float imag() const { return m_imag; }
+
+        // operators
+        constexpr Complex operator+ (const Complex& other) const
+        {
+            float real = m_real + other.m_real;
+            float imag = m_imag + other.m_imag;
+            return { real, imag };
+        }
+
+        constexpr Complex operator() (const Complex& other) const
+        {
+            float real = m_real + other.m_real;
+            float imag = m_imag + other.m_imag;
+            return { real, imag };
+        }
+    };
+
     // Folding: Operator +
 
     auto sumClassic(auto ... args) {
@@ -31,14 +62,65 @@ namespace Folding_Seminar {
         return result;
     }
 
+    //auto functionCallModern(auto ... args) {
 
+    //    // our first folding expression
+    //    auto result{ ( ... () args) };
+
+    //    return result;
+    //}
+
+    void sumModernExample()
+    {
+        Complex c1{ 1, 2 };
+        Complex c2{ 3, 4 };
+        Complex c3{ 5, 6 };
+
+        c1 = c2(c3);
+
+        auto result = sumModern(c1, c2, c3, c2, c3);
+
+    }
+
+    auto subtractModern(auto ... args) {
+
+        // (1 - 2) - 3 = -4
+        // 1 - (2 - 3) = +2
+
+        return (args - ...);
+    }
+
+    void printerModern(auto first, auto ... args) {
+
+    //    ( std::cout << ... << args );
+
+
+        //std::cout << first;
+        //( ( std::cout << " - " << '\'' << args << '\'' ) ,  ... );
+
+        ((std::cout << first), ..., (std::cout << ", " << args));
+
+        std::cout << std::endl;
+
+        //int a;
+        //int b;
+        //int c;
+
+        //a = 1,
+        //b = 2;
+
+        //c = (a = 1);
+        //if (a == 1) {}
+    }
 
     void test_seminar_folding() {
 
-        auto result1 = sumClassic(1, 2, 3, 4, 5, 6, 7, 8, 9 );
+        // auto result1 = sumClassic(1, 2, 3, 4, 5, 6, 7, 8, 9 );
+        // auto result2 = sumModern(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        // auto result3 = subtractModern(1, 2, 3);
 
-        auto result2 = sumModern(1, 2, 3, 4, 5, 6, 7, 8, 9);
-   }
+        printerModern(1, "ABC", 123.456, std::string{"XYZ"}, '!');
+    }
 }
 
 
@@ -212,6 +294,7 @@ void main_folding()
 {
     using namespace Folding_Seminar;
     test_seminar_folding();
+    sumModernExample();
     return;
 
     using namespace Folding;

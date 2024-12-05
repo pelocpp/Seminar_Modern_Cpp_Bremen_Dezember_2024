@@ -281,6 +281,7 @@ namespace BookStoreUsingDynamicPolymorphism {
     {
     private:
         using Stock = std::vector<std::shared_ptr<IMedia>>;
+
         using StockList = std::initializer_list<std::shared_ptr<IMedia>>;
 
     public:
@@ -329,6 +330,7 @@ namespace BookStoreUsingDynamicPolymorphism {
         Bookstore bookstore{
             cBook, movieBond, javaBook, cppBook, csharpBook, movieTarantino
         };
+
 
         double balance{ bookstore.totalBalance() };
         std::println("Total value of Bookstore: {:.{}f}", balance, 2);
@@ -441,19 +443,27 @@ namespace BookStoreUsingTypeErasure {
     };
 
     template<typename T>
-    concept MediaConcept = requires (const T & m)
+    concept MediaConcept = requires (const T& m)
     {
         { m.getPrice() } -> std::same_as<double>;
         { m.getCount() } -> std::same_as<size_t>;
     };
 
+
+
+
+
     template <typename ... TMedia>
-        requires (MediaConcept<TMedia> && ...)
+       
+        requires ( MediaConcept<TMedia> && ... )
+
     class Bookstore
     {
     private:
         using StockType = std::variant<TMedia ...>;
+
         using Stock = std::vector<StockType>;
+
         using StockList = std::initializer_list<StockType>;
 
     public:
@@ -464,7 +474,8 @@ namespace BookStoreUsingTypeErasure {
             requires MediaConcept<T>
         void addMedia(const T& media) {
             // m_stock.push_back(StockType{ media });  // ausführliche Schreibweise
-            m_stock.push_back(media);
+            
+            m_stock.push_back(media);  // Konvertierung ==> std::varian
         }
 
         // or
@@ -569,11 +580,14 @@ namespace BookStoreUsingTypeErasure {
         Movie movieTarantino{ "Once upon a time in Hollywood", "Quentin Tarantino", 6.99, 3 };
         Movie movieBond{ "Spectre", "Sam Mendes", 8.99, 6 };
 
-        using MyBookstore = Bookstore<Book, Movie>;
+        using MyBookstore = Bookstore<Book>;
 
         MyBookstore bookstore{
-            cBook, movieBond, javaBook, cppBook, csharpBook, movieTarantino
+           // cBook, movieBond, javaBook, cppBook, csharpBook, movieTarantino
+            cBook
         };
+
+       // bookstore.addMedia(movieBond);
 
         double balance{ bookstore.totalBalance() };
         std::println("Total value of Bookstore: {:.{}f}", balance, 2);
@@ -586,15 +600,15 @@ namespace BookStoreUsingTypeErasure {
         Book cBook{ "C", "Dennis Ritchie", 11.99, 12 };
         Movie movieBond{ "Spectre", "Sam Mendes", 8.99, 6 };
 
-        using MyBookstore = Bookstore<Book, Movie>;
+        using MyBookstore = Bookstore<Book>;
 
-        MyBookstore bookstore{ cBook, movieBond };
+        MyBookstore bookstore{ cBook };
 
         Book csharpBook{ "C#", "Anders Hejlsberg", 21.99, 8 };
         bookstore.addMedia(csharpBook);
 
         Movie movieTarantino{ "Once upon a time in Hollywood", "Quentin Tarantino", 6.99, 3 };
-        bookstore.addMediaEx(movieTarantino);
+     //   bookstore.addMediaEx(movieTarantino);
 
         size_t count{ bookstore.count() };
         std::println("Count of elements in Bookstore: {}", count);

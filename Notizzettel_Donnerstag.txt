@@ -10,163 +10,90 @@ peter.loos@gmx.de
 
 Donnerstag
 
-https://github.com/pelocpp/
-
-https://peterloos.de/
-
-https://adventofcode.com/
-
 // ====================
 
-Datentypen
 
-Generischen Programmierung
+(((((((std::out << 1) << 2) << 3) << 4) << 5) << 6) << 7) ;
 
-decltype // using // Type Traits // std::is_same // std::reference_remove
+printerModern(1, 2, 3, 4, 5, 6, 7);
 
-Grundlagen: Metaprogramming
-
-VERSTÄNDIS !!!!!!
-
-
-1>        C:\Peter_Loos\GeneralSnippets\MetaProgramming\MetaProgramming01.cpp(12,62):
-1>        Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "Metaprogramming::Factorial<-496>".
-1>        C:\Peter_Loos\GeneralSnippets\MetaProgramming\MetaProgramming01.cpp(12,62):
-1>        Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "Metaprogramming::Factorial<-497>".
-1>        C:\Peter_Loos\GeneralSnippets\MetaProgramming\MetaProgramming01.cpp(12,62):
-1>        Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "Metaprogramming::Factorial<-498>".
-1>        C:\Peter_Loos\GeneralSnippets\MetaProgramming\MetaProgramming01.cpp(12,62):
-1>        Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "Metaprogramming::Factorial<-499>".
-1>        C:\Peter_Loos\GeneralSnippets\MetaProgramming\MetaProgramming01.cpp(12,62):
-1>        Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "Metaprogramming::Factorial<-500>".
-1>Die Erstellung des Projekts "GeneralSnippets.vcxproj" ist abgeschlossen -- FEHLER.
-========== Build: 0 erfolgreich, 1 Fehler, 0 aktuell, 0 übersprungen ==========
-========== Erstellen abgeschlossen um 09:15 und dauerte 00,984 Sekunden ==========
-
-
-
-Was ist  std::vector <T> ==   Schablone
-
-void myProg()
-{
-    using MyContainer = std::vector<long>;
-    // typedef
-
-    MyContainer zahlen;
-    zahlen.push_back(123);
+void printerModern(auto ... args) {
+    (std::cout << ... << args);
 }
 
-==================================================
 
-C++ 11:
+Folding: 
 
-Variadische Templates
+Interessante Operator // Spezialfall:
 
-a) Verstehen // Verständnis
+Operator:  Komma-Operator   ,  
 
-b) Einsetzen: gerne auch, muss nicht morgen sein.
+Sequenz - Operator.
 
-c) Why ????????????????????????????????
+Folding über einem Komma
 
-   Transport von Daten !!!!
+Folding over a comma   
 
+Verständnis  // Lesen   Folding
+ 
+================================================
 
-    my_make_unique(TArgs ... args) {
+STL - Container
 
-    std::unique_ptr<Unknown> up2 = my_make_unique<Unknown>(1, 2, 3);
+Homogener Container
 
-    == EINPACKEN:   1, 2, 3 => args    (Komma-getrennte Liste von Parametern)
-    == AUSPACKEN:   args => 1, 2, 3    (Komma-getrennte Liste erzeugen)
+std::vector <int>
 
+Heterogene Container:
 
+C# / Java:  ArrayList<Object>
 
-To be Done:
+C++:  Container mit std::variant
 
-eine Funktion
+Fallstudie:
 
-modern printer
+Buchhandlung:
 
-perfect forwarding
+Medien  ==> Buch, CD, DVD, BlueRay, Magazin 
 
-emplace
+a) Vererbung:
 
-========================================
+   C++ Schnittstelle  => Um für viele verschiedene Klassen
+                         einen gemeinsamen Nenner zu haben
 
-Real Modern C++
+   virtual
 
-Noch eine Referenz:     Universal Referenz !!!!
+   Container mit verschiedenen Objekten: 
+   Typ des Containers: Basis-Schnittstelle
 
-========================================
+   ==> Negativ bashing: virtual ==> Performanz (indirekter Methodenaufruf)
 
+b) Statischer Polymorphismus:
 
-    bool result = AND ( true, true, true, true, true, true, true    );
-    // false
-    // true
+   Betrachte viele verschiedene Klassen
 
+   KEIN gemeinsamer Nenner (keine Basisklasse / Schnittstelle)
 
-        bool andAll(bool cond) {
-            return cond;
-        }
+   Typ des Containers: std::vector of std::variant
+   
+Beispiel:  Buchhandlung ==> Type Erasure
 
-        ===>
+Überlegung:
 
-        template <typename T>
-        bool andAll(T cond) {
-            return cond;
-        }
+Performanz
 
-        ===>
+Flexibilität // Keine Basisklassen notwendig
 
-        template <typename T>
-            requires CONCEPT<T>
-        bool andAll(T cond) {
-            return cond;
-        }
+Was ist Type Erasure ????
 
-==============================================
+Typ löschen  // Informationen eines Typs reduzieren
 
-std::tuple
+std::variant
+std::function  // Lambda, C-Funktionen, Methoden
+std::any
 
-Ähnlichkeit zu
+===================================================
 
-struct
+CRTP
 
-Ein std::tuple ist ein struct für Schreibfaule :)
-
-std::tuple:  Helfer
-
-DTO  ==> Data Transfer Objects
-
-
-std::string_view  
-
-===================================================================
-
-Exception Safety:
------------------
-
-Vorstellung // Konzept
-
-Berührpunkte von "unserer" SW mit diesem Konzept.
-
-Exception Safety:  STL
-
-
-std::vector<Unknown> 
-
-"noexcept" ist performanter ==> Kein Stack Unwinding Code wird abgesetzt.
-
-Doch eine Exception: Absturz !!!
-
-=============================================
-
-Folding
-
-
-
-
-
-
-
-
-
+===================================================
