@@ -8,6 +8,41 @@ module;
 
 module modern_cpp:folding;
 
+namespace Folding_Seminar {
+
+    // Folding: Operator +
+
+    auto sumClassic(auto ... args) {
+
+        auto result{ 0 };
+
+        for (auto elem : { args ... }) {
+            result += elem;
+        }
+
+        return result;
+    }
+
+    auto sumModern (auto ... args) {
+
+        // our first folding expression
+        auto result{   ( ...  +  args  )    };
+
+        return result;
+    }
+
+
+
+    void test_seminar_folding() {
+
+        auto result1 = sumClassic(1, 2, 3, 4, 5, 6, 7, 8, 9 );
+
+        auto result2 = sumModern(1, 2, 3, 4, 5, 6, 7, 8, 9);
+   }
+}
+
+
+
 namespace Folding {
 
     /* folding examples: introduction
@@ -171,8 +206,14 @@ namespace Folding {
     }
 }
 
-void main_folding()
+
+
+void main_folding() 
 {
+    using namespace Folding_Seminar;
+    test_seminar_folding();
+    return;
+
     using namespace Folding;
     //test_01();
     //test_02();

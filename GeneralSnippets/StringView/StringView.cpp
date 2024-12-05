@@ -6,9 +6,15 @@ module modern_cpp:string_view;
 
 namespace StringViewDemonstration {
 
-    static void test_01()
+    void test_01()
     {
-        std::string_view sv{ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" };  // Konstante Zeichenkette
+        const char* aaas = "Erweiterungen";
+
+        std::string s2{ "Erweiterungen" };
+
+        // const char*
+        // size
+        constexpr std::string_view sv{ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" };  // Konstante Zeichenkette  // Nicht am Stack
 
         std::string s{ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" };        //  Heap
 
@@ -18,7 +24,7 @@ namespace StringViewDemonstration {
 
     static void test_02()
     {
-        std::string s{ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" };
+        std::string s{ "AAA" };    
 
         std::string_view sv{ s };
 
@@ -77,10 +83,10 @@ namespace StringViewDemonstration {
 void main_string_view()
 {
     using namespace StringViewDemonstration;
-    test_01();
+    //test_01();
     test_02();
-    test_03();
-    test_04();
+    //test_03();
+    //test_04();
 }
 
 // =====================================================================================

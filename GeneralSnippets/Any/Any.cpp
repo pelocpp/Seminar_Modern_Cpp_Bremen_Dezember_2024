@@ -8,7 +8,8 @@ namespace AnySamples {
 
     static void test_01_any()
     {
-        std::any a{ 1 };
+        std::any a{ 1 };  // Type Deduction:  1 ==> int
+
         std::println("{}: {}", a.type().name(), std::any_cast<int>(a));
 
         a = 3.14;

@@ -4,6 +4,142 @@
 
 module modern_cpp:variadic_templates;
 
+namespace VariadicTemplates_Seminar {
+
+    void printer(int n) {
+
+        std::cout << n << std::endl;
+    }
+
+    template <typename T, typename ... TArgs>
+    void printer(T n, TArgs ... args) {  // m : pack  // einpacken
+
+        std::cout << n << std::endl;
+        printer(args ...);    // auspacken
+    }
+
+    // C++ 11
+    //void printer(int n) {
+
+    //    std::cout << n << std::endl;
+    //}
+
+    //// generic function  // C++ 20 // 
+    //void printer(auto n, auto ... args) {  // m : pack  // einpacken
+
+    //    std::cout << n << std::endl;
+    //    printer ( args ... );    // auspacken
+    //}
+
+  ////   C++ 17
+  //  template <typename T, typename ... TArgs>
+  //  void printer(T n, TArgs ... args) { 
+
+  //      std::cout << n << std::endl;
+
+  //      if constexpr  ( sizeof... (args) > 0)
+  //      {
+  //          printer(args ...);    // auspacken
+  //      }
+  //  }
+
+    void test_seminar_variadic_01() {
+
+        printer ( 1, 2, 3, 4 );  // Template Parameter Deduction
+    }
+
+    // ======================================================
+    // WHY ???????????????????????
+
+    class Unknown {
+    private:
+        int m_var1;
+        int m_var2;
+        int m_var3;
+
+    public:
+        Unknown(const Unknown& other) 
+            : m_var1{ other.m_var1 }, m_var2{ other.m_var2 }, m_var3{ other.m_var3 } {
+            std::cout << "COPY c'tor()" << other << std::endl;
+        }
+
+        Unknown(Unknown&& other) = default;
+
+        //Unknown (Unknown&& other) noexcept
+        //    : m_var1{ other.m_var1 }, m_var2{ other.m_var2 }, m_var3{ other.m_var3 } {
+
+        //    std::cout << "MOVE c'tor(): " << other << std::endl;
+
+        //    other.m_var1 = 0;
+        //    other.m_var2 = 0;
+        //    other.m_var3 = 0;
+        //}
+
+        Unknown() : m_var1{ -1 }, m_var2{ -1 }, m_var3{ -1 } {
+            std::cout << "c'tor()" << std::endl;
+        }
+
+        Unknown(int n) : m_var1{ n }, m_var2{ -1 }, m_var3{ -1 } {
+            std::cout << "c'tor(int)" << std::endl;
+        }
+
+        Unknown(int n, int m) : m_var1{ n }, m_var2{ m }, m_var3{ -1 } {
+            std::cout << "c'tor(int, int)" << std::endl;
+        }
+
+        Unknown(int n, int m, int k) : m_var1{ n }, m_var2{ m }, m_var3{ k } {
+            std::cout << "c'tor(int, int, int)" << std::endl;
+        }
+
+        friend std::ostream& operator<< (std::ostream&, const Unknown&);
+    };
+
+    std::ostream& operator<< (std::ostream& os, const Unknown& obj) {
+        os
+            << "var1: " << obj.m_var1
+            << ", var2: " << obj.m_var2
+            << ", var3: " << obj.m_var3 << std::endl;
+
+        return os;
+    }
+
+    // Okay - Kopien werden übergeben
+    template <typename T, typename ... TArgs>
+    std::unique_ptr<T> my_make_unique( TArgs ... args ) {
+
+        std::unique_ptr<T> up{ new T { args ... } };
+        return up;
+    }
+
+    // Besser - es werden Referenzen übergegen ...
+    // und unterlagert kann Verschiebesemantik zum Einsatz kommen
+    template <typename T, typename ... TArgs>
+    std::unique_ptr<T> my_make_unique_perfect (TArgs&& ... args) {
+
+        std::unique_ptr<T> up{ new T { std::forward<TArgs> (args) ... } };
+        return up;
+    }
+
+    void test_seminar_variadic() {
+
+        std::vector <Unknown> uv;
+
+        uv.push_back(Unknown{ 1, 2, 3 });
+        uv.push_back(Unknown{ 4, 5, 6 });
+    }
+
+
+    void test_seminar_variadic_03() {
+
+        //std::unique_ptr<Unknown> up1 = std::make_unique<Unknown>(1, 2, 3);
+
+        std::unique_ptr<Unknown> up2 = 
+            my_make_unique_perfect<Unknown>(1, 2, 3);
+    }
+
+}
+
+
 namespace VariadicTemplatesIntro_01 {
 
     // ====================================================================
@@ -279,8 +415,13 @@ namespace VariadicTemplatesIntro_05 {
     }
 }
 
+
 void main_variadic_templates_introduction()
 {
+    using namespace VariadicTemplates_Seminar;
+    test_seminar_variadic();
+    return;
+
     using namespace VariadicTemplatesIntro_01;
     test_printer_01();
 

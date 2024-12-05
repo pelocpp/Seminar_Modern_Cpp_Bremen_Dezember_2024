@@ -2,6 +2,12 @@
 // Array.cpp // std::array // std::to_array // std::span
 // =====================================================================================
 
+
+module;
+
+#include <vector>
+
+
 module modern_cpp:class_array;
 
 namespace StdArray {
@@ -12,7 +18,9 @@ namespace StdArray {
     static void test_01() {
 
         // initialization variants
-        [[maybe_unused]] std::array<int, 5> array1;
+        int array0[6];
+
+        std::array<int, 5> array1;
 
         std::array<int, 5> array2{};
 
@@ -55,7 +63,8 @@ namespace StdArray {
         //std::println("{}", array[5]);
 
         // valid index
-        array.at(2) = 33;
+        array.at(2) = 33;  // BOUNDS CHECK bei at
+        array[2] = 33;     // NO BOUNDS CHECK
 
         // invalid index
         try {
@@ -338,7 +347,8 @@ namespace StdArray {
         std::array arr{ 6, 7, 8, 9, 10 };
         printArray(arr.data(), arr.size());
 
-        std::vector vec{ 1, 3, 5, 7, 9 };
+        // CTAD - Class Template Argument Deduction
+        std::vector vec{1, 3, 5, 7, 9 };
         printArray(vec.data(), vec.size());
     }
 
@@ -359,23 +369,23 @@ namespace StdArray {
 
     static void test_31() {
 
-        int carr[]{ 1, 2, 3, 4, 5 };
-        printSpan(carr);
-
-        std::array arr{ 6, 7, 8, 9, 10 };
-        printSpan(arr);
-
-        std::vector<int> vec{ 1, 3, 5, 7, 9 };
-        printSpan(vec);
-
         //int carr[]{ 1, 2, 3, 4, 5 };
-        //printSpan(std::span{ carr });
+        //printSpan(carr);
 
         //std::array arr{ 6, 7, 8, 9, 10 };
-        //printSpan(std::span{ arr });
+        //printSpan(arr);
 
-        //std::vector vec{ 1, 3, 5, 7, 9 };
-        //printSpan(std::span{ vec });
+        //std::vector<int> vec{ 1, 3, 5, 7, 9 };
+        //printSpan(vec);
+
+        int carr[]{ 1, 2, 3, 4, 5 };
+        printSpan(std::span{ carr });
+
+        std::array arr{ 6, 7, 8, 9, 10 };
+        printSpan(std::span{ arr });
+
+        std::vector vec{ 1, 3, 5, 7, 9 };
+        printSpan(std::span{ vec });
     }
 
     // --------------------------------------------------------------------
@@ -403,11 +413,33 @@ namespace StdArray {
         std::vector vec{ 1, 3, 5, 7, 9 };
         printSpanConst(vec);
     }
+
+    static void test_error() {
+
+        std::vector<int> vec{ 1, 3, 5, 7, 9 };
+
+        std::span<int> mySpan{ vec };
+        printSpan(mySpan);
+
+        //vec.push_back(11);
+        //vec.push_back(11);
+        //vec.push_back(11);
+        //vec.push_back(11);
+        //vec.push_back(11);
+
+        mySpan[0] = 123;
+
+        printSpan(mySpan);
+
+    }
 }
 
 void main_array()
 {
     using namespace StdArray;
+
+    test_error();
+    return;
 
     test_01();
     test_02();

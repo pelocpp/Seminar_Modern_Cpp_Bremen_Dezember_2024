@@ -30,6 +30,7 @@ namespace TupleSamples {
         std::get<0>(values) = 'M';
         std::get<2>(values) = 135.79;
 
+
         // printing tuple values again
         std::print("The modified values of tuple are : ");
         std::println("{} - {} - {}", 
@@ -81,6 +82,7 @@ namespace TupleSamples {
         Row row3 = std::make_tuple(12, 'C', 3.33, "Hans");
 
         std::vector<Row> mySheet;
+        std::vector<std::tuple<int, char, double, std::string>> mySheet1;
 
         mySheet.push_back(row1);
         mySheet.push_back(row2);
@@ -94,6 +96,7 @@ namespace TupleSamples {
         std::println("Value: {}", val);
         std::println("Name:  {}", name);
 
+        // for_each 
         for (const auto& [id, abbr, val, name] : mySheet)
         {
             std::println("Id:    {}", id);
@@ -171,7 +174,7 @@ namespace TupleSamples {
 
 void main_tuple()
 {
-    using namespace TupleSamples;
+    using namespace TupleSamples; 
     test_01();
     test_02();
     test_03();

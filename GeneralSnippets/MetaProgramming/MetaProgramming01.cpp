@@ -7,10 +7,12 @@ module modern_cpp:metaprogramming;
 namespace Metaprogramming {
 
     template <long N>
-    struct Factorial {
+    struct Factorial
+    {
         static constexpr long result = N * Factorial<N - 1>::result;
     };
 
+    // Spezialisierung
     template <>
     struct Factorial<1> {
         static constexpr long result = 1;
@@ -40,13 +42,15 @@ namespace Metaprogramming {
     // =================================================================================
 
     template <size_t N, size_t D>
-    struct Frac {
-        static constexpr size_t Num = N;
-        static constexpr size_t Den = D;
+    struct Frac
+    {
+        static constexpr size_t Num = N;  // numerator // Zähler
+        static constexpr size_t Den = D;  // denominator // Nenner
     };
 
     template <size_t N, typename F>
-    struct ScalarMultiplication {
+    struct ScalarMultiplication
+    {
         using result = Frac<N * F::Num, F::Den>;
     };
 
@@ -56,11 +60,14 @@ namespace Metaprogramming {
         std::cout << FourThirds::Num << "/" << FourThirds::Den << std::endl;
     }
 
+    // primary template
     template <size_t X, size_t Y>
-    struct GGT {
+    struct GGT
+    {
         static constexpr size_t result = GGT<Y, X % Y>::result;
     };
 
+    // specialization
     template <size_t X>
     struct GGT<X, 0> {
         static constexpr size_t result = X;
@@ -135,12 +142,20 @@ namespace Metaprogramming {
 
 void main_metaprogramming_01()
 {
+    std::vector <int> zahlen;
+
+    std::vector <int>::iterator it;
+
+    constexpr bool b = std::is_same <int, std::vector <int>>::value;
+
+
+
     using namespace Metaprogramming;
-    test_01();
-    test_02();
+    //test_01();
+    //test_02();
     test_03();
-    test_04();
-    test_05();
+    //test_04();
+    //test_05();
 }
 
 // =====================================================================================

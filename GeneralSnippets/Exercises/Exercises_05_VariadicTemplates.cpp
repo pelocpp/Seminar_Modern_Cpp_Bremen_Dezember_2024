@@ -11,14 +11,39 @@ namespace Exercises_VariadicTemplates {
         // =============================================================
         // Logical And - with variadic templates
 
+        // using <type_traits>
+        template <typename T>
+        concept OnlyBoolAllowed = std::is_same<T, bool>::value;
+
+
         template<typename T>
+            requires OnlyBoolAllowed<T>
         bool andAll(T cond) {
             return cond;
         }
 
         template<typename T, typename ... TRest>
+            requires OnlyBoolAllowed<T>
         bool andAll(T cond, TRest ... conds) {
             return cond && andAll(conds...);
+        }
+
+
+
+
+        template<typename ... TRest>
+        bool andAllEx(TRest ... conds) {
+
+            // auspacken: 
+            auto list = { conds ... };
+
+            // std::initializer_list<bool> list2 = { conds ... };
+
+            for (auto elem : list) {
+                if (! elem) return false;
+            }
+
+            return true;
         }
 
         // or
@@ -101,12 +126,16 @@ namespace Exercises_VariadicTemplates {
         template<typename T1, typename T2, typename... TRest>
         bool sameType(T1 arg1, T2 arg2, TRest... args)
         {
-            std::cout << " > " << arg1 << ": " << typeid(arg1).name();
-            std::cout << " - " << arg2 << ": " << typeid(arg2).name() << std::endl;
+           // std::cout << " > " << arg1 << ": " << typeid(arg1).name();
+            //std::cout << " - " << arg2 << ": " << typeid(arg2).name() << std::endl;
 
             // Note: short-circuit-evaluation is considered !
             // Study output of program execution
-            return std::is_same<decltype(arg1), decltype(arg2)>::value && sameType(arg2, args...);
+            // return std::is_same < decltype(arg1), decltype(arg2) >::value && sameType(arg2, args...);
+
+            std::cout << "arg1: " << arg1 << ", arg2: " << arg2 << std::endl;
+
+            return std::is_same < T1, T2 >::value&& sameType(arg1, args ...);
 
             // Note: Due to order of expression evaluation short-circuit-evaluation cannot be considered !
             // Study output of program execution
@@ -116,7 +145,7 @@ namespace Exercises_VariadicTemplates {
         static void testExercise_02()
         {
             bool result;
-            result = sameType(43, false, "hello");
+            result = sameType(43, 44, 45, 56, false, "hello", 123.45);
             std::cout << std::boolalpha << result << std::endl;
 
             result = sameType(1, 2, 3, 4, 5, 6, 7, 8, 9);
@@ -363,10 +392,10 @@ void test_exercises_variadic_templates()
     using namespace Exercises_VariadicTemplates;
     Exercise_01::testExercise_01();
     Exercise_02::testExercise_02();
-    Exercise_03::testExercise_03();
-    Exercise_04::testExercise_04();
-    Exercise_05::testExercise_05();
-    Exercise_06::testExercise_06();
+    //Exercise_03::testExercise_03();
+    //Exercise_04::testExercise_04();
+    //Exercise_05::testExercise_05();
+    //Exercise_06::testExercise_06();
 }
 
 // =====================================================================================
